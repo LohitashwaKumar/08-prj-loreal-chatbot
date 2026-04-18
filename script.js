@@ -5,7 +5,7 @@ const chatWindow = document.getElementById("chatWindow");
 const promptButtons = document.querySelectorAll(".prompt-btn");
 
 /* Replace with your Cloudflare Worker URL */
-const API_URL = "YOUR_CLOUDFLARE_WORKER_URL_HERE";
+const API_URL = "https://08-prj-loreal-chatbot.lohitthrish.workers.dev/";
 
 /* Conversation history */
 const messages = [
