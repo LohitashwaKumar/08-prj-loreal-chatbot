@@ -2,6 +2,7 @@
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
+const latestQuestion = document.getElementById("latestQuestion");
 const promptButtons = document.querySelectorAll(".prompt-btn");
 
 /* Replace with your Cloudflare Worker URL */
@@ -12,7 +13,7 @@ const messages = [
   {
     role: "system",
     content:
-      "You are a L'Oréal beauty assistant. Help users discover makeup, skincare, haircare, and fragrance products. Give friendly, personalized recommendations and routines based on their needs. Keep responses clear, helpful, and concise."
+      "You are a L’Oréal beauty assistant. Help users discover makeup, skincare, haircare, and fragrance products. Give friendly, personalized recommendations and routines based on their needs. Keep responses clear, helpful, and concise."
   }
 ];
 
@@ -26,10 +27,16 @@ function addMessage(text, sender) {
 }
 
 /* Initial bot message */
-addMessage("👋 Hello! I’m your L’Oréal Beauty Assistant. Ask me about skincare, makeup, haircare, or routines.", "ai");
+addMessage(
+  "👋 Hello! I’m your L’Oréal Beauty Assistant. Ask me about skincare, makeup, haircare, or routines.",
+  "ai"
+);
 
 /* Send message to API */
 async function sendMessage(userText) {
+  latestQuestion.textContent = `Latest question: ${userText}`;
+  latestQuestion.classList.remove("hidden");
+
   addMessage(userText, "user");
 
   messages.push({
@@ -53,7 +60,9 @@ async function sendMessage(userText) {
 
     const data = await response.json();
 
-    const aiReply = data.choices[0].message.content;
+    const aiReply =
+      data?.choices?.[0]?.message?.content ||
+      "Sorry, I couldn't generate a response right now.";
 
     typingMessage.remove();
 
@@ -65,7 +74,10 @@ async function sendMessage(userText) {
     });
   } catch (error) {
     typingMessage.remove();
-    addMessage("Sorry, something went wrong while connecting to the assistant.", "ai");
+    addMessage(
+      "Sorry, something went wrong while connecting to the assistant.",
+      "ai"
+    );
     console.error(error);
   }
 }
