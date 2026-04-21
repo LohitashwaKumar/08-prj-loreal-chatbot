@@ -11,6 +11,7 @@ const chatForm = document.getElementById("chatForm");
 const chatWindow = document.getElementById("chatWindow");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
+const searchInput = document.getElementById("searchInput");
 
 /* Replace with your Cloudflare Worker URL */
 const API_URL = "https://loreal-chatbot-api.lohitthrish.workers.dev/";
@@ -190,18 +191,27 @@ function displayProducts(products) {
   });
 }
 
-/* Apply dropdown filter */
 function applyCurrentFilter() {
-  const selectedCategory = categoryFilter.value;
+  const selectedCategory = categoryFilter.value.toLowerCase();
+  const searchTerm = searchInput.value.trim().toLowerCase();
 
-  if (!selectedCategory) {
-    displayProducts(allProducts);
-    return;
+  let filteredProducts = [...allProducts];
+
+  if (selectedCategory) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.category.toLowerCase() === selectedCategory
+    );
   }
 
-  const filteredProducts = allProducts.filter(
-    (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
-  );
+  if (searchTerm) {
+    filteredProducts = filteredProducts.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(searchTerm) ||
+        product.brand.toLowerCase().includes(searchTerm) ||
+        product.category.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
 
   displayProducts(filteredProducts);
 }
@@ -336,6 +346,10 @@ ${JSON.stringify(productData, null, 2)}
 
   await sendToAssistant(prompt);
 }
+
+searchInput.addEventListener("input", () => {
+  applyCurrentFilter();
+});
 
 /* Event: category filter */
 categoryFilter.addEventListener("change", () => {
