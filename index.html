@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>L’Oréal Beauty Assistant</title>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <title>L'Oréal | Smart Routine &amp; Product Advisor</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -18,43 +18,111 @@
   <body>
     <div class="page-wrapper">
       <header class="site-header">
-        <h1 class="site-title">L’Oréal Beauty Assistant</h1>
-        <p class="site-subtitle">
-          Ask about skincare, makeup, haircare, fragrances, and personalized routines.
-        </p>
+        <img src="img/loreal-logo.png" alt="L'Oréal Logo" class="logo" />
+        <div class="header-copy">
+          <h1 class="site-title">Smart Routine &amp; Product Advisor</h1>
+          <p class="site-subtitle">
+            Explore products, build a personalized routine, and chat about beauty,
+            skincare, haircare, makeup, and fragrance.
+          </p>
+        </div>
       </header>
 
       <main>
-        <section class="chatbox">
-          <div id="latestQuestion" class="latest-question hidden"></div>
-
-          <div id="chatWindow" class="chat-window">
-            <!-- messages added by JavaScript -->
+        <section class="controls-section" aria-label="Product browsing controls">
+          <div class="search-section">
+            <label for="categoryFilter" class="filter-label">Browse by category</label>
+            <select id="categoryFilter">
+              <option value="" selected>All Categories</option>
+              <option value="cleanser">Cleansers</option>
+              <option value="moisturizer">Moisturizers &amp; Treatments</option>
+              <option value="haircare">Haircare</option>
+              <option value="makeup">Makeup</option>
+              <option value="hair color">Hair Color</option>
+              <option value="hair styling">Hair Styling</option>
+              <option value="men's grooming">Men's Grooming</option>
+              <option value="suncare">Suncare</option>
+              <option value="fragrance">Fragrance</option>
+            </select>
           </div>
 
-          <div class="prompt-row">
+          <p class="selection-hint">
+            Click a product card to select or unselect it. Open “Details” to read the
+            description.
+          </p>
+        </section>
+
+        <section class="catalog-section">
+          <div class="section-heading">
+            <h2>Product Catalog</h2>
+            <p>Choose the products you want included in your personalized routine.</p>
+          </div>
+
+          <div
+            id="productsContainer"
+            class="products-grid"
+            aria-live="polite"
+            aria-label="Available products"
+          ></div>
+        </section>
+
+        <section class="selected-products" aria-labelledby="selectedProductsHeading">
+          <div class="selected-products-header">
+            <div>
+              <h2 id="selectedProductsHeading">Selected Products</h2>
+              <p id="selectedCount" class="selected-count">0 products selected</p>
+            </div>
+
             <button
+              id="clearSelections"
+              class="clear-btn"
               type="button"
-              class="prompt-btn"
-              data-prompt="Build me a skincare routine for dry skin."
+              aria-label="Clear all selected products"
             >
-              Dry skin routine
-            </button>
-            <button
-              type="button"
-              class="prompt-btn"
-              data-prompt="Recommend a simple makeup routine for beginners."
-            >
-              Beginner makeup
-            </button>
-            <button
-              type="button"
-              class="prompt-btn"
-              data-prompt="What haircare products are good for damaged hair?"
-            >
-              Damaged hair help
+              Clear All
             </button>
           </div>
+
+          <div
+            id="selectedProductsEmpty"
+            class="empty-state"
+          >
+            No products selected yet. Choose products from the catalog above.
+          </div>
+
+          <ul
+            id="selectedProductsList"
+            class="selected-products-list"
+            aria-live="polite"
+            aria-label="Selected products list"
+          ></ul>
+
+          <button id="generateRoutine" class="generate-btn" type="button">
+            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            Generate Routine
+          </button>
+        </section>
+
+        <section class="chatbox" aria-labelledby="chatHeading">
+          <div class="chatbox-header">
+            <h2 id="chatHeading">Let's Build Your Routine</h2>
+            <p class="chat-subtitle">
+              Generate a routine first, then ask follow-up questions about it.
+            </p>
+          </div>
+
+          <div
+            id="latestRoutineStatus"
+            class="routine-status hidden"
+            aria-live="polite"
+          ></div>
+
+          <div
+            id="chatWindow"
+            class="chat-window"
+            aria-live="polite"
+            aria-label="Routine and chat messages"
+          ></div>
 
           <form id="chatForm" class="chat-form">
             <label for="userInput" class="visually-hidden">Message</label>
@@ -62,12 +130,12 @@
               id="userInput"
               name="userInput"
               type="text"
-              placeholder="Ask me about beauty products or routines..."
+              placeholder="Ask me about your routine, products, or beauty care..."
               autocomplete="off"
               required
             />
             <button type="submit" id="sendBtn">
-              <span class="material-icons">send</span>
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
               <span class="visually-hidden">Send</span>
             </button>
           </form>
@@ -75,7 +143,7 @@
       </main>
 
       <footer class="site-footer">
-        <p>&copy; 2025 L’Oréal Beauty Assistant Demo</p>
+        <p>&copy; 2025 L'Oréal. All rights reserved.</p>
         <nav>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Use</a>
