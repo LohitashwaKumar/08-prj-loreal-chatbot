@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>L'Oréal | Smart Routine &amp; Product Advisor</title>
+    <title>L'Oréal | Routine Builder</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -19,23 +19,27 @@
     <div class="page-wrapper">
       <header class="site-header">
         <img src="img/loreal-logo.png" alt="L'Oréal Logo" class="logo" />
-        <div class="header-copy">
-          <h1 class="site-title">Smart Routine &amp; Product Advisor</h1>
-          <p class="site-subtitle">
-            Explore products, build a personalized routine, and chat about beauty,
-            skincare, haircare, makeup, and fragrance.
-          </p>
-        </div>
+        <h1 class="site-title">Routine Builder</h1>
       </header>
 
       <main>
-        <section class="controls-section" aria-label="Product browsing controls">
-          <div class="search-section">
-            <label for="categoryFilter" class="filter-label">Browse by category</label>
+        <section class="top-controls">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search products..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="filter-box">
+            <i class="fa-solid fa-filter"></i>
             <select id="categoryFilter">
-              <option value="" selected>All Categories</option>
+              <option value="">All Categories</option>
               <option value="cleanser">Cleansers</option>
-              <option value="moisturizer">Moisturizers &amp; Treatments</option>
+              <option value="moisturizer">Moisturizers & Treatments</option>
               <option value="haircare">Haircare</option>
               <option value="makeup">Makeup</option>
               <option value="hair color">Hair Color</option>
@@ -45,84 +49,45 @@
               <option value="fragrance">Fragrance</option>
             </select>
           </div>
-
-          <p class="selection-hint">
-            Click a product card to select or unselect it. Open “Details” to read the
-            description.
-          </p>
         </section>
 
-        <section class="catalog-section">
-          <div class="section-heading">
-            <h2>Product Catalog</h2>
-            <p>Choose the products you want included in your personalized routine.</p>
-          </div>
-
-          <div
-            id="productsContainer"
-            class="products-grid"
-            aria-live="polite"
-            aria-label="Available products"
-          ></div>
+        <section>
+          <div id="productsContainer" class="products-grid"></div>
         </section>
 
-        <section class="selected-products" aria-labelledby="selectedProductsHeading">
-          <div class="selected-products-header">
+        <section class="selected-products">
+          <div class="selected-header">
             <div>
-              <h2 id="selectedProductsHeading">Selected Products</h2>
-              <p id="selectedCount" class="selected-count">0 products selected</p>
+              <h2>Selected Products</h2>
+              <p id="selectedCount">0 products selected</p>
             </div>
 
-            <button
-              id="clearSelections"
-              class="clear-btn"
-              type="button"
-              aria-label="Clear all selected products"
-            >
+            <button id="clearSelections" class="clear-btn" type="button">
               Clear All
             </button>
           </div>
 
-          <div
-            id="selectedProductsEmpty"
-            class="empty-state"
-          >
-            No products selected yet. Choose products from the catalog above.
+          <div id="selectedProductsEmpty" class="empty-state">
+            No products selected yet.
           </div>
 
-          <ul
-            id="selectedProductsList"
-            class="selected-products-list"
-            aria-live="polite"
-            aria-label="Selected products list"
-          ></ul>
+          <ul id="selectedProductsList" class="selected-products-list"></ul>
 
           <button id="generateRoutine" class="generate-btn" type="button">
-            <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
             Generate Routine
           </button>
         </section>
 
-        <section class="chatbox" aria-labelledby="chatHeading">
-          <div class="chatbox-header">
-            <h2 id="chatHeading">Let's Build Your Routine</h2>
-            <p class="chat-subtitle">
-              Generate a routine first, then ask follow-up questions about it.
-            </p>
+        <section class="chatbox">
+          <div class="chat-header">
+            <h2>About Your Routine</h2>
+            <p>Get personalized advice and answers about your skincare routine</p>
           </div>
 
-          <div
-            id="latestRoutineStatus"
-            class="routine-status hidden"
-            aria-live="polite"
-          ></div>
+          <div id="latestRoutineStatus" class="routine-status hidden"></div>
 
-          <div
-            id="chatWindow"
-            class="chat-window"
-            aria-live="polite"
-            aria-label="Routine and chat messages"
-          ></div>
+          <div id="chatWindow" class="chat-window"></div>
 
           <form id="chatForm" class="chat-form">
             <label for="userInput" class="visually-hidden">Message</label>
@@ -130,26 +95,17 @@
               id="userInput"
               name="userInput"
               type="text"
-              placeholder="Ask me about your routine, products, or beauty care..."
+              placeholder="Ask about your routine..."
               autocomplete="off"
               required
             />
             <button type="submit" id="sendBtn">
-              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+              <i class="fa-solid fa-paper-plane"></i>
               <span class="visually-hidden">Send</span>
             </button>
           </form>
         </section>
       </main>
-
-      <footer class="site-footer">
-        <p>&copy; 2025 L'Oréal. All rights reserved.</p>
-        <nav>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Contact</a>
-        </nav>
-      </footer>
     </div>
 
     <script src="script.js"></script>
