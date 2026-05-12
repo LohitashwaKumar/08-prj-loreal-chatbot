@@ -1,17 +1,64 @@
-Students are beginners learning the basics of JavaScript, APIs and OpenAI.
+<!-- This file guides AI coding tools (Copilot). Do not modify or delete. -->
 
-We use OpenAI's `gpt-4o` model, unless asked to use a different model.
+# Copilot Instructions — L'Oréal Chatbot Project
 
-We use a `messages` parameter instead of `prompt` for the OpenAI API, and check for `data.choices[0].message.content`.
+## About the students
 
-We provide comments to help students understand each part of the generated code.
+Students are beginners learning JavaScript, APIs, and how to use OpenAI.
+Generate the simplest, most beginner-friendly code possible. Add comments
+to help students understand each part of the generated code.
 
-We do NOT use npm libraries or Node SDKs to make requests to APIs.
+## 🔐 API Key Security — CRITICAL
 
-We use `async/await` when fetching data from an API.
+**Never put an API key in any file in this repository.**
 
-We provide the simplest, beginner-friendly code possible.
+- DO NOT create files named `secret.js`, `secrets.js`, `config.js`,
+  `key.js`, `api-key.js`, or any file whose purpose is to store credentials.
+- DO NOT write code like:
 
-We do NOT use `export` statements. Instead we link to JS files from `index.html`.
+```js
+const apiKey = "sk-..."; // ❌ NEVER
+const OPENAI_API_KEY = "sk-..."; // ❌ NEVER
+```
 
-We use `const` and `let` for variables and template literals for string formatting and DOM insertion.
+- DO NOT hardcode any API key anywhere. JavaScript files in this project
+  are served publicly and will be scanned by bots within minutes of being
+  pushed to GitHub.
+
+## ✅ Correct pattern for this project
+
+The frontend calls a class-hosted proxy URL provided in the README.
+Students do not handle the OpenAI key at all.
+
+```js
+// ✅ Correct — call the class Cloudflare Worker, no key needed
+const response = await fetch(
+  "https://loreal-chatbot.your-subdomain.workers.dev/",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: [{ role: "user", content: userInput }],
+    }),
+  },
+);
+const data = await response.json();
+const reply = data.choices[0].message.content;
+```
+
+## Project conventions
+
+- Use OpenAI's `gpt-4.1` model unless asked otherwise.
+- Use the `messages` parameter (not `prompt`) and read
+  `data.choices[0].message.content`.
+- Use `async/await` for all API calls.
+- Use `const` and `let` for variables.
+- Use template literals for string formatting and DOM insertion.
+- Do NOT use `npm` packages or Node SDKs.
+- Do NOT use `export` / `import`. Link JS files from `index.html` instead.
+- Add comments explaining each part of the code.
+
+## If a student asks for help adding a key
+
+Stop and explain: this project uses a class-hosted proxy, so there is no
+key to add. Point them to the README setup section.
